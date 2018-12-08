@@ -1,0 +1,33 @@
+---
+title: "Map exercise"
+author: "Antti Karkman"
+date: "12/8/2018"
+output: html_document
+---
+
+```{r, fig.width=9, fig.height=8}
+library(maps)
+library(mapdata)
+library(tidyverse)
+EU_map <- map_data("world", region=c("Austria","Andorra","Belgium","Bulgaria","Croatia","Cyprus",
+                   "Czech Rep.","Denmark","Estonia","Finland","France",
+                   "Germany","Greece","Switzerland","Hungary","Italy", "Ireland", "Latvia","Liechtenstein",
+                   "Lithuania","Luxembourg","Malta","Netherlands", "Norway","Poland",
+                   "Portugal","Romania","Slovakia","Slovenia","Spain",
+                   "Sweden", "UK"))
+
+EU_map <- mutate(EU_map, value = NA)
+EU_map[EU_map$region=="Finland",]$value <- 10
+EU_map[EU_map$region=="Norway",]$value <- 10
+EU_map[EU_map$region=="Spain",]$value <- 50
+EU_map[EU_map$region=="Portugal",]$value <- 70
+EU_map[EU_map$region=="Cyprus",]$value <- 90
+head(EU_map)
+
+ggplot() + 
+  geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=value)) + 
+  scale_y_continuous(limits = c(34,71)) + 
+  theme(panel.grid = element_blank(), panel.background = element_blank()) +
+  labs(x="Longitude", y="Latitude") + scale_fill_gradient(name="Antibioottiresistenssi
+suhdeluku", high="red", low="darkgreen", na.value = "grey50")
+```
