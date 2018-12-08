@@ -1,4 +1,3 @@
-# Map for StARe data 
 
 ## Load some libraries
 ```{r, message=FALSE}
@@ -23,7 +22,6 @@ EU_map[EU_map$region=="Norway",]$value <- 10
 EU_map[EU_map$region=="Spain",]$value <- 50
 EU_map[EU_map$region=="Portugal",]$value <- 70
 EU_map[EU_map$region=="Cyprus",]$value <- 90
-head(EU_map)
 ```
 
 ```{r, fig.width=9, fig.height=8}

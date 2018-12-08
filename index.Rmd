@@ -1,6 +1,6 @@
 ---
 title: "European AR map"
-author: "StARe"
+author: "StARe project"
 output:
   html_document:
     theme: cosmo
