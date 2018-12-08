@@ -16,6 +16,7 @@ EU_map <- map_data("world", region=c("Austria","Andorra","Belgium","Bulgaria","C
                    "Portugal","Romania","Slovakia","Slovenia","Spain",
                    "Sweden", "UK"))
 
+# totally artifical values still
 EU_map <- mutate(EU_map, value = NA)
 EU_map[EU_map$region=="Finland",]$value <- 10
 EU_map[EU_map$region=="Norway",]$value <- 10
