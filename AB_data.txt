@@ -1,0 +1,33 @@
+region	DDD
+Austria	13.9
+Belgium	27.7
+Bulgaria	21.4
+Croatia	21.8
+Cyprus	31.1
+Czech Republic	19.5
+Denmark	16.1
+Estonia	12.0
+Finland	17.2
+France	29.9
+Germany	14.4
+Greece	36.1
+Hungary	17.0
+Iceland	19.9
+Ireland	25.3
+Italy	27.5
+Latvia	13.3
+Liechtenstein	
+Lithuania	16.7
+Luxembourg	26.3
+Malta	21.6
+Netherlands	10.7
+Norway	15.8
+Poland	26.2
+Portugal	21.3
+Romania	33.3
+Slovakia	24.5
+Slovenia	14.5
+Spain	22.2
+Sweden	12.3
+UK	20.1
+
