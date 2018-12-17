@@ -1,0 +1,8 @@
+region	key	value	source
+Cyprus	antibioticUse_mean	30.9	ESAC-Net surveillance data 2016, ECDC
+Germany	antibioticUse_mean	14.6	ESAC-Net surveillance data 2016, ECDC
+Spain	antibioticUse_mean	20.2	ESAC-Net surveillance data 2016, ECDC
+Finland	antibioticUse_mean	18.2	ESAC-Net surveillance data 2016, ECDC
+Ireland	antibioticUse_mean	22.4	ESAC-Net surveillance data 2016, ECDC
+Norway	antibioticUse_mean	15.9	ESAC-Net surveillance data 2016, ECDC
+Portugal	antibioticUse_mean	22.2	ESAC-Net surveillance data 2016, ECDC

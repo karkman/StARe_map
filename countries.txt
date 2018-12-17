@@ -1,0 +1,50 @@
+id_country	parameter	value	source
+CYP	antibioticUse_2015	31.08	ESAC-Net surveillance data 2016, ECDC
+CYP	antibioticUse_mean	30.9	ESAC-Net surveillance data 2016, ECDC
+CYP	antibioticUse_animPerMass	391.5	EMA 2016
+CYP	GDP_2016	23351	IMF (WEO April 2017 edition)
+CYP	WEI_98_07	63	EEA
+CYP	EPI_2016	80.24	Yale University
+CYP	CPI_2016	55	transparency.org
+DE	antibioticUse_2015	14.36	ESAC-Net surveillance data 2016, ECDC
+DE	antibioticUse_mean	14.6	ESAC-Net surveillance data 2016, ECDC
+DE	antibioticUse_animPerMass	149.3	EMA 2016
+DE	GDP_2016	41902	IMF (WEO April 2017 edition)
+DE	WEI_98_07	19	EEA
+DE	EPI_2016	84.26	Yale University
+DE	CPI_2016	81	transparency.org
+ES	antibioticUse_2015	22.2	ESAC-Net surveillance data 2016, ECDC
+ES	antibioticUse_mean	20.2	ESAC-Net surveillance data 2016, ECDC
+ES	antibioticUse_animPerMass	418.8	EMA 2016
+ES	GDP_2016	26608	IMF (WEO April 2017 edition)
+ES	WEI_98_07	30	EEA
+ES	EPI_2016	88.91	Yale University
+ES	CPI_2016	58	transparency.org
+FI	antibioticUse_2015	17.23	ESAC-Net surveillance data 2016, ECDC
+FI	antibioticUse_mean	18.2	ESAC-Net surveillance data 2016, ECDC
+FI	antibioticUse_animPerMass	22.3	EMA 2016
+FI	GDP_2016	43169	IMF (WEO April 2017 edition)
+FI	WEI_98_07	2	EEA
+FI	EPI_2016	90.68	Yale University
+FI	CPI_2016	98	transparency.org
+IL	antibioticUse_2015	25.61	ESAC-Net surveillance data 2016, ECDC
+IL	antibioticUse_mean	22.4	ESAC-Net surveillance data 2016, ECDC
+IL	antibioticUse_animPerMass	48	EMA 2016
+IL	GDP_2016	62562	IMF (WEO April 2017 edition)
+IL	WEI_98_07	2	EEA
+IL	EPI_2016	86.6	Yale University
+IL	CPI_2016	73	transparency.org
+NO	antibioticUse_2015	15.8	ESAC-Net surveillance data 2016, ECDC
+NO	antibioticUse_mean	15.9	ESAC-Net surveillance data 2016, ECDC
+NO	antibioticUse_animPerMass	3.1	EMA 2016
+NO	GDP_2016	70391	IMF (WEO April 2017 edition)
+NO	WEI_98_07	1	EEA
+NO	EPI_2016	86.9	Yale University
+NO	CPI_2016	85	transparency.org
+PT	antibioticUse_2015	21.25	ESAC-Net surveillance data 2016, ECDC
+PT	antibioticUse_mean	22.2	ESAC-Net surveillance data 2016, ECDC
+PT	antibioticUse_animPerMass	201.6	EMA 2016
+PT	GDP_2016	20831	IMF (WEO April 2017 edition)
+PT	WEI_98_07	15	EEA
+PT	EPI_2016	88.63	Yale University
+PT	CPI_2016	62	transparency.org

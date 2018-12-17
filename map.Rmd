@@ -4,6 +4,7 @@
 library(maps)
 library(mapdata)
 library(tidyverse)
+library(gridExtra)
 ```
 
 ## Map of Europe and values for AR
@@ -15,19 +16,32 @@ EU_map <- map_data("world", region=c("Austria","Andorra","Belgium","Bulgaria","C
                    "Portugal","Romania","Slovakia","Slovenia","Spain",
                    "Sweden", "UK"))
 
+AB_data <- read_delim ("AB_countries.txt", delim = "\t", col_names = TRUE)
+#AR_data <- read_delim()
+EU_map <- full_join(EU_map, AB_data, by="region")
+
 # totally artifical values still
-EU_map <- mutate(EU_map, value = NA)
-EU_map[EU_map$region=="Finland",]$value <- 10
-EU_map[EU_map$region=="Norway",]$value <- 10
-EU_map[EU_map$region=="Spain",]$value <- 50
-EU_map[EU_map$region=="Portugal",]$value <- 70
-EU_map[EU_map$region=="Cyprus",]$value <- 90
+EU_map <- mutate(EU_map, ARvalue = NA)
+EU_map[EU_map$region=="Finland",]$ARvalue <- 10
+EU_map[EU_map$region=="Norway",]$ARvalue <- 10
+EU_map[EU_map$region=="Spain",]$ARvalue <- 50
+EU_map[EU_map$region=="Portugal",]$ARvalue <- 70
+EU_map[EU_map$region=="Cyprus",]$ARvalue <- 90
 ```
 
-```{r, fig.width=9, fig.height=8}
-ggplot() + 
-  geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=value)) + 
+```{r, fig.width=12, fig.height=6}
+p1 <- ggplot() + 
+  geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=value), color="grey40") + 
   scale_y_continuous(limits = c(34,71)) + 
-  theme(panel.grid = element_blank(), panel.background = element_blank()) +
-  labs(x="Longitude", y="Latitude") + scale_fill_gradient(name="AR", high="red", low="darkgreen", na.value = "grey50")
+  theme(panel.grid = element_blank(), panel.background = element_blank(),
+        plot.title = element_text(size=20, face = "bold")) +
+  labs(x="Longitude", y="Latitude", title="A") + scale_fill_gradient(name="AB use", high="red", low="darkgreen", na.value = "grey70")
+
+p2 <- ggplot() + 
+  geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=value), color="grey40") + 
+  scale_y_continuous(limits = c(34,71)) + 
+  theme(panel.grid = element_blank(), panel.background = element_blank(), 
+        plot.title = element_text(size=20, face = "bold")) +
+  labs(x="Longitude", y="Latitude", title="B") + scale_fill_gradient(name="AR prevalence", high="red", low="darkgreen", na.value = "grey70")
+grid.arrange(p1, p2, ncol=2)
 ```
