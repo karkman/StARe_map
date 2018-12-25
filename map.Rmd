@@ -17,6 +17,7 @@ EU_map <- map_data("world", region=c("Austria","Andorra","Belgium","Bulgaria","C
                    "Sweden", "UK"))
 
 AB_data <- read_delim ("AB_data.txt", delim = "\t", col_names = TRUE)
+Res_data <- read_csv("ECDC_surveillance_data_Antimicrobial_resistance.csv")
 AR_rawdata <- read_delim("Stare_data.txt", delim=" ", col_names = TRUE)
 AR_rawdata$region <- str_replace(AR_rawdata$id_plant, pattern="[:digit:]", replace ="")
 
@@ -32,7 +33,7 @@ AR_eff <- AR_rawdata %>%
   summarize(eff_mean = mean(SUM)) %>% 
   ungroup()
 
-AR_data <- full_join(AR_inf,AR_eff)
+AR_data <- full_join(AR_inf,AR_eff, by="region")
 
 AR_data[AR_data$region=="PT",]$region <- "Portugal"
 AR_data[AR_data$region=="CYP",]$region <- "Cyprus"
@@ -42,35 +43,43 @@ AR_data[AR_data$region=="NO",]$region <- "Norway"
 AR_data[AR_data$region=="ES",]$region <- "Spain"
 AR_data[AR_data$region=="IL",]$region <- "Ireland"
 
-
 EU_map <- full_join(EU_map, AR_data, by="region")
 EU_map <- full_join(EU_map, AB_data, by="region")
+EU_map <- full_join(EU_map, Res_data, by="region")
 
-glimpse(EU_map)
-
+EU_map <- EU_map %>% 
+  mutate(scaled_DDD = as.vector(scale(DDD)), scaled_res = as.vector(scale(NumValue)), 
+                             scaled_inf = as.vector(scale(inf_mean)), scaled_eff = as.vector(scale(eff_mean)))
 ```
 
-```{r, fig.width=12, fig.height=4}
+```{r, fig.width=9, fig.height=8}
 p1 <- ggplot() + 
-  geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=DDD), color="grey40") + 
+  geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=scaled_DDD), color="grey40") + 
   scale_y_continuous(limits = c(34,71)) + 
   theme(panel.grid = element_blank(), panel.background = element_blank(),
-        plot.title = element_text(size=20, face = "bold")) +
-  labs(x="Longitude", y="Latitude", title="A") + scale_fill_gradient(name="AB use", high="red", low="darkgreen", na.value = "grey70")
+        plot.title = element_text(size=10, face = "bold"), legend.position = "none") +
+  labs(x="Longitude", y="Latitude", title = "Antibiotic use in Europe 2015, DDD", caption = "source: ecdc.europa.eu") + scale_fill_gradient(name="scale", high="red", low="#FFFF99", na.value = "grey80")
 
 p2 <- ggplot() + 
-  geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=inf_mean), color="grey40") + 
+  geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=scaled_res), color="grey40") + 
   scale_y_continuous(limits = c(34,71)) + 
   theme(panel.grid = element_blank(), panel.background = element_blank(), 
-        plot.title = element_text(size=20, face = "bold")) +
-  labs(x="Longitude", y="Latitude", title="B") + scale_fill_gradient(name="Influent\nAR prevalence", high="red", low="darkgreen", na.value = "grey70")
+        plot.title = element_text(size=10, face = "bold"), legend.position = "none") +
+  labs(x="Longitude", y="Latitude", title = "Antibiotc resistant clinical E. coli isolates", caption = "source: ecdc.europa.eu") + scale_fill_gradient(name="E. coli\nresistant isolates", high="red", low="#FFFF99", na.value = "grey80")
 
 p3 <- ggplot() + 
-  geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=eff_mean), color="grey40") + 
+  geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=scaled_inf), color="grey40") + 
   scale_y_continuous(limits = c(34,71)) + 
   theme(panel.grid = element_blank(), panel.background = element_blank(), 
-        plot.title = element_text(size=20, face = "bold")) +
-  labs(x="Longitude", y="Latitude", title="C") + scale_fill_gradient(name="Effluent\nAR prevalence", high="red", low="darkgreen", na.value = "grey70")
+        plot.title = element_text(size=10, face = "bold"), legend.position = "none") +
+  labs(x="Longitude", y="Latitude", title = "ARGs in European raw sewage", caption = "source: this study") + scale_fill_gradient(name="Influent\nAR prevalence", high="red", low="#FFFF99", na.value = "grey80")
 
-grid.arrange(p1, p2, p3, ncol=3)
+p4 <- ggplot() + 
+  geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=scaled_eff), color="grey40") + 
+  scale_y_continuous(limits = c(34,71)) + 
+  theme(panel.grid = element_blank(), panel.background = element_blank(), 
+        plot.title = element_text(size=10, face = "bold"), legend.position = "none") +
+  labs(x="Longitude", y="Latitude", title = "ARGs in European treated sewage", caption = "source: this study") + scale_fill_gradient(name="Effluent\nAR prevalence", high="red", low="#FFFF99", na.value = "grey80")
+
+grid.arrange(p1, p2, p3, p4, ncol=2)
 ```
