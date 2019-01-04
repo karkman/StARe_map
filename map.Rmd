@@ -1,5 +1,6 @@
 
-## Load some libraries
+## Libraries
+Libraries needed in the analyses
 ```{r, message=FALSE}
 library(maps)
 library(mapdata)
@@ -8,6 +9,7 @@ library(gridExtra)
 ```
 
 ## Map of Europe and values for AR
+The map of Europe is from the `mapdata` package. The antibiotic consumption data and the *E. coli* resistance rasyes from year 2015 are taken from the [European Centre for Disease Prevention and Control.](ecdc.europa.eu)
 ```{r}
 EU_map <- map_data("world", region=c("Austria","Andorra","Belgium","Bulgaria","Croatia","Cyprus",
                    "Czech Rep.","Denmark","Estonia","Finland","France",
