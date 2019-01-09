@@ -9,18 +9,18 @@ library(gridExtra)
 ```
 
 ## Map of Europe and values for AR
-The map of Europe is from the `mapdata` package. The antibiotic consumption data and the *E. coli* resistance rasyes from year 2015 are taken from the [European Centre for Disease Prevention and Control.](ecdc.europa.eu)
+The map of Europe is from the `mapdata` package. The antibiotic consumption data and the *E. coli* resistance rates (combined resistance: third-generation cephalosporin, fluoroquinolones and aminoglycoside) for year 2015 are from the [European Centre for Disease Prevention and Control.](ecdc.europa.eu)
 ```{r}
 EU_map <- map_data("world", region=c("Austria","Andorra","Belgium","Bulgaria","Croatia","Cyprus",
                    "Czech Rep.","Denmark","Estonia","Finland","France",
                    "Germany","Greece","Switzerland","Hungary","Italy", "Ireland", "Latvia","Liechtenstein",
                    "Lithuania","Luxembourg","Malta","Netherlands", "Norway","Poland",
-                   "Portugal","Romania","Slovakia","Slovenia","Spain",
+                   "Portugal","Romania","Slovakia", "Slovenia","Spain",
                    "Sweden", "UK"))
 
-AB_data <- read_delim ("AB_data.txt", delim = "\t", col_names = TRUE)
-Res_data <- read_csv("ECDC_surveillance_data_Antimicrobial_resistance.csv")
-AR_rawdata <- read_delim("Stare_data.txt", delim=" ", col_names = TRUE)
+AB_data <- read_delim ("data/AB_data.txt", delim = "\t", col_names = TRUE)
+Res_data <- read_csv("data/ECDC_surveillance_data_Antimicrobial_resistance.csv")
+AR_rawdata <- read_delim("data/Stare_data.txt", delim=" ", col_names = TRUE)
 AR_rawdata$region <- str_replace(AR_rawdata$id_plant, pattern="[:digit:]", replace ="")
 
 AR_inf <- AR_rawdata %>% 
@@ -54,34 +54,36 @@ EU_map <- EU_map %>%
                              scaled_inf = as.vector(scale(inf_mean)), scaled_eff = as.vector(scale(eff_mean)))
 ```
 
-```{r, fig.width=9, fig.height=8}
+```{r, fig.width=10, fig.height=4}
 p1 <- ggplot() + 
   geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=scaled_DDD), color="grey40") + 
   scale_y_continuous(limits = c(34,71)) + 
   theme(panel.grid = element_blank(), panel.background = element_blank(),
         plot.title = element_text(size=10, face = "bold"), legend.position = "none") +
-  labs(x="Longitude", y="Latitude", title = "Antibiotic use in Europe 2015, DDD", caption = "source: ecdc.europa.eu") + scale_fill_gradient(name="scale", high="red", low="#FFFF99", na.value = "grey80")
+  labs(x="Longitude", y="Latitude", title = "Antibiotic use in Europe", caption = "source: ecdc.europa.eu") + scale_fill_gradient(name="scale", high="red", low="#FFFF99", na.value = "grey80")
 
 p2 <- ggplot() + 
   geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=scaled_res), color="grey40") + 
   scale_y_continuous(limits = c(34,71)) + 
   theme(panel.grid = element_blank(), panel.background = element_blank(), 
         plot.title = element_text(size=10, face = "bold"), legend.position = "none") +
-  labs(x="Longitude", y="Latitude", title = "Antibiotc resistant clinical E. coli isolates", caption = "source: ecdc.europa.eu") + scale_fill_gradient(name="E. coli\nresistant isolates", high="red", low="#FFFF99", na.value = "grey80")
+  labs(x="Longitude", y="Latitude", title = "Clinical resistance (E. coli)", caption = "source: ecdc.europa.eu") + scale_fill_gradient(name="E. coli\nresistant isolates", high="red", low="#FFFF99", na.value = "grey80")
 
 p3 <- ggplot() + 
   geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=scaled_inf), color="grey40") + 
   scale_y_continuous(limits = c(34,71)) + 
   theme(panel.grid = element_blank(), panel.background = element_blank(), 
         plot.title = element_text(size=10, face = "bold"), legend.position = "none") +
-  labs(x="Longitude", y="Latitude", title = "ARGs in European raw sewage", caption = "source: this study") + scale_fill_gradient(name="Influent\nAR prevalence", high="red", low="#FFFF99", na.value = "grey80")
+  labs(x="Longitude", y="Latitude", title = "ARGs in raw sewage", caption = "source: this study") + scale_fill_gradient(name="Influent\nAR prevalence", high="red", low="#FFFF99", na.value = "grey80")
 
 p4 <- ggplot() + 
   geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=scaled_eff), color="grey40") + 
   scale_y_continuous(limits = c(34,71)) + 
   theme(panel.grid = element_blank(), panel.background = element_blank(), 
         plot.title = element_text(size=10, face = "bold"), legend.position = "none") +
-  labs(x="Longitude", y="Latitude", title = "ARGs in European treated sewage", caption = "source: this study") + scale_fill_gradient(name="Effluent\nAR prevalence", high="red", low="#FFFF99", na.value = "grey80")
+  labs(x="Longitude", y="Latitude", title = "ARGs in treated sewage", caption = "source: this study") + scale_fill_gradient(name="Effluent\nAR prevalence", high="red", low="#FFFF99", na.value = "grey80")
 
-grid.arrange(p1, p2, p3, p4, ncol=2)
+grid.arrange(p1, p2, p3, ncol=3)
 ```
+
+**Figure 1.** Antibiotic consumption in European countries as DDD per 1 000 inhabitants (left). Proportion of clinical antibiotic resistant (AR) _E. coli_ isolates to third-generation cephalosporin, fluoroquinolones and aminoglycoside (center). Antibiotic resistance genes (ARGs) detected in raw sewage from countries included in this study (right). Data on antibiotic onsumption and resistant _E. coli_ is for year 2015 and from ECDC. Antibiotic resistance gene data from this study. All data is scaled. Yellow color designates low values and red color designates high values.
