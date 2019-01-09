@@ -13,10 +13,10 @@ The map of Europe is from the `mapdata` package. The antibiotic consumption data
 ```{r, message=FALSE}
 EU_map <- map_data("world", region=c("Austria","Andorra","Belgium","Bulgaria","Croatia","Cyprus",
                    "Czech Rep.","Denmark","Estonia","Finland","France",
-                   "Germany","Greece","Switzerland","Hungary","Italy", "Ireland", "Latvia","Liechtenstein",
-                   "Lithuania","Luxembourg","Malta","Netherlands", "Norway","Poland",
-                   "Portugal","Romania","Slovakia", "Slovenia","Spain",
-                   "Sweden", "UK"))
+                   "Germany","Greece","Switzerland","Hungary","Italy", "Ireland", "Latvia",
+                   "Liechtenstein", "Lithuania","Luxembourg","Malta","Netherlands", 
+                   "Norway","Poland", "Portugal","Romania","Slovakia", "Slovenia",
+                   "Spain", "Sweden", "UK"))
 
 AB_data <- read_delim ("data/AB_data.txt", delim = "\t", col_names = TRUE)
 Res_data <- read_csv("data/ECDC_surveillance_data_Antimicrobial_resistance.csv")
@@ -50,8 +50,10 @@ EU_map <- full_join(EU_map, AB_data, by="region")
 EU_map <- full_join(EU_map, Res_data, by="region")
 
 EU_map <- EU_map %>% 
-  mutate(scaled_DDD = as.vector(scale(DDD)), scaled_res = as.vector(scale(NumValue)), 
-                             scaled_inf = as.vector(scale(inf_mean)), scaled_eff = as.vector(scale(eff_mean)))
+  mutate(scaled_DDD = as.vector(scale(DDD)), 
+         scaled_res = as.vector(scale(NumValue)), 
+         scaled_inf = as.vector(scale(inf_mean)), 
+         scaled_eff = as.vector(scale(eff_mean)))
 ```
 ## Figures
 ```{r, fig.width=10, fig.height=4}
@@ -60,28 +62,24 @@ p1 <- ggplot() +
   scale_y_continuous(limits = c(34,71)) + 
   theme(panel.grid = element_blank(), panel.background = element_blank(),
         plot.title = element_text(size=10, face = "bold"), legend.position = "none") +
-  labs(x="Longitude", y="Latitude", title = "Antibiotic use in Europe", caption = "source: ecdc.europa.eu") + scale_fill_gradient(name="scale", high="red", low="#FFFF99", na.value = "grey80")
+  labs(x="Longitude", y="Latitude", title = "Antibiotic use in Europe", caption = "source: ecdc.europa.eu") + 
+  scale_fill_gradient(name="scale", high="red", low="#FFFF99", na.value = "grey80")
 
 p2 <- ggplot() + 
   geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=scaled_res), color="grey40") + 
   scale_y_continuous(limits = c(34,71)) + 
   theme(panel.grid = element_blank(), panel.background = element_blank(), 
         plot.title = element_text(size=10, face = "bold"), legend.position = "none") +
-  labs(x="Longitude", y="Latitude", title = "Clinical resistance (E. coli)", caption = "source: ecdc.europa.eu") + scale_fill_gradient(name="E. coli\nresistant isolates", high="red", low="#FFFF99", na.value = "grey80")
+  labs(x="Longitude", y="Latitude", title = "Clinical resistance (E. coli)", caption = "source: ecdc.europa.eu") + 
+  scale_fill_gradient(name="E. coli\nresistant isolates", high="red", low="#FFFF99", na.value = "grey80")
 
 p3 <- ggplot() + 
   geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=scaled_inf), color="grey40") + 
   scale_y_continuous(limits = c(34,71)) + 
   theme(panel.grid = element_blank(), panel.background = element_blank(), 
         plot.title = element_text(size=10, face = "bold"), legend.position = "none") +
-  labs(x="Longitude", y="Latitude", title = "ARGs in raw sewage", caption = "source: this study") + scale_fill_gradient(name="Influent\nAR prevalence", high="red", low="#FFFF99", na.value = "grey80")
-
-p4 <- ggplot() + 
-  geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=scaled_eff), color="grey40") + 
-  scale_y_continuous(limits = c(34,71)) + 
-  theme(panel.grid = element_blank(), panel.background = element_blank(), 
-        plot.title = element_text(size=10, face = "bold"), legend.position = "none") +
-  labs(x="Longitude", y="Latitude", title = "ARGs in treated sewage", caption = "source: this study") + scale_fill_gradient(name="Effluent\nAR prevalence", high="red", low="#FFFF99", na.value = "grey80")
+  labs(x="Longitude", y="Latitude", title = "ARGs in raw sewage", caption = "source: this study") + 
+  scale_fill_gradient(name="Influent\nAR prevalence", high="red", low="#FFFF99", na.value = "grey80")
 
 grid.arrange(p1, p2, p3, ncol=3)
 ```
