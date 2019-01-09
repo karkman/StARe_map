@@ -10,7 +10,7 @@ library(gridExtra)
 
 ## Map of Europe and values for AR
 The map of Europe is from the `mapdata` package. The antibiotic consumption data and the *E. coli* resistance rates (combined resistance: third-generation cephalosporin, fluoroquinolones and aminoglycoside) for year 2015 are from the [European Centre for Disease Prevention and Control.](ecdc.europa.eu)
-```{r}
+```{r, message=FALSE}
 EU_map <- map_data("world", region=c("Austria","Andorra","Belgium","Bulgaria","Croatia","Cyprus",
                    "Czech Rep.","Denmark","Estonia","Finland","France",
                    "Germany","Greece","Switzerland","Hungary","Italy", "Ireland", "Latvia","Liechtenstein",
@@ -53,7 +53,7 @@ EU_map <- EU_map %>%
   mutate(scaled_DDD = as.vector(scale(DDD)), scaled_res = as.vector(scale(NumValue)), 
                              scaled_inf = as.vector(scale(inf_mean)), scaled_eff = as.vector(scale(eff_mean)))
 ```
-
+## Figures
 ```{r, fig.width=10, fig.height=4}
 p1 <- ggplot() + 
   geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=scaled_DDD), color="grey40") + 

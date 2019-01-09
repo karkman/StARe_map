@@ -147,6 +147,7 @@ $(document).ready(function () {
 <ul>
 <li><a href="#libraries">Libraries</a></li>
 <li><a href="#map-of-europe-and-values-for-ar">Map of Europe and values for AR</a></li>
+<li><a href="#figures">Figures</a></li>
 </ul>
 </div>
 
@@ -169,36 +170,10 @@ library(gridExtra)</code></pre>
                    &quot;Portugal&quot;,&quot;Romania&quot;,&quot;Slovakia&quot;, &quot;Slovenia&quot;,&quot;Spain&quot;,
                    &quot;Sweden&quot;, &quot;UK&quot;))
 
-AB_data &lt;- read_delim (&quot;AB_data.txt&quot;, delim = &quot;\t&quot;, col_names = TRUE)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   region = col_character(),
-##   DDD = col_double()
-## )</code></pre>
-<pre class="r"><code>Res_data &lt;- read_csv(&quot;ECDC_surveillance_data_Antimicrobial_resistance.csv&quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   HealthTopic = col_character(),
-##   Population = col_character(),
-##   Indicator = col_character(),
-##   Unit = col_character(),
-##   Time = col_double(),
-##   RegionCode = col_character(),
-##   region = col_character(),
-##   NumValue = col_double(),
-##   TxtValue = col_logical()
-## )</code></pre>
-<pre class="r"><code>AR_rawdata &lt;- read_delim(&quot;Stare_data.txt&quot;, delim=&quot; &quot;, col_names = TRUE)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   code = col_character(),
-##   SUM = col_double(),
-##   id_plant = col_character(),
-##   treatmentClassification = col_character(),
-##   effluent = col_logical(),
-##   northing = col_double()
-## )</code></pre>
-<pre class="r"><code>AR_rawdata$region &lt;- str_replace(AR_rawdata$id_plant, pattern=&quot;[:digit:]&quot;, replace =&quot;&quot;)
+AB_data &lt;- read_delim (&quot;data/AB_data.txt&quot;, delim = &quot;\t&quot;, col_names = TRUE)
+Res_data &lt;- read_csv(&quot;data/ECDC_surveillance_data_Antimicrobial_resistance.csv&quot;)
+AR_rawdata &lt;- read_delim(&quot;data/Stare_data.txt&quot;, delim=&quot; &quot;, col_names = TRUE)
+AR_rawdata$region &lt;- str_replace(AR_rawdata$id_plant, pattern=&quot;[:digit:]&quot;, replace =&quot;&quot;)
 
 AR_inf &lt;- AR_rawdata %&gt;% 
   filter(treatmentClassification==&quot;untreated&quot;) %&gt;% 
@@ -229,6 +204,9 @@ EU_map &lt;- full_join(EU_map, Res_data, by=&quot;region&quot;)
 EU_map &lt;- EU_map %&gt;% 
   mutate(scaled_DDD = as.vector(scale(DDD)), scaled_res = as.vector(scale(NumValue)), 
                              scaled_inf = as.vector(scale(inf_mean)), scaled_eff = as.vector(scale(eff_mean)))</code></pre>
+</div>
+<div id="figures" class="section level2">
+<h2>Figures</h2>
 <pre class="r"><code>p1 &lt;- ggplot() + 
   geom_polygon(data = EU_map, aes(x=long, y = lat, group = group, fill=scaled_DDD), color=&quot;grey40&quot;) + 
   scale_y_continuous(limits = c(34,71)) + 
