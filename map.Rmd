@@ -78,7 +78,7 @@ p3 <- ggplot() +
   scale_y_continuous(limits = c(34,71)) + 
   theme(panel.grid = element_blank(), panel.background = element_blank(), 
         plot.title = element_text(size=10, face = "bold"), legend.position = "none") +
-  labs(x="Longitude", y="Latitude", title = "ARGs in raw sewage", caption = "source: this study") + 
+  labs(x="Longitude", y="Latitude", title = "ARGs in raw sewage", caption = "source: Pärnänen et al.") + 
   scale_fill_gradient(name="Influent\nAR prevalence", high="red", low="#FFFF99", na.value = "grey80")
 
 grid.arrange(p1, p2, p3, ncol=3)
