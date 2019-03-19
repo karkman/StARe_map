@@ -85,3 +85,10 @@ grid.arrange(p1, p2, p3, ncol=3)
 ```
 
 **Figure 1.** Antibiotic consumption in European countries as DDD per 1 000 inhabitants (**left**). Proportion of clinical antibiotic resistant (AR) _E. coli_ isolates to third-generation cephalosporin, fluoroquinolones and aminoglycoside (**center**). Antibiotic resistance genes (ARGs) detected in raw sewage from countries included in this study (**right**). Data on antibiotic onsumption and resistant _E. coli_ is for year 2015 and from ECDC. Antibiotic resistance gene data from this study. All data is scaled. Yellow color designates low values and red color designates high values.
+
+Alternative figures with only two panels.
+
+```{r alt_fig, fig.width=10, fig.height=6}
+grid.arrange(p1, p3, ncol=2)
+grid.arrange(p2, p3, ncol=2)
+```
