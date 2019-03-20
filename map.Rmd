@@ -5,6 +5,7 @@ Libraries needed in the analyses
 library(maps)
 library(mapdata)
 library(tidyverse)
+library(grid)
 library(gridExtra)
 ```
 
@@ -78,10 +79,10 @@ p3 <- ggplot() +
   scale_y_continuous(limits = c(34,71)) + 
   theme(panel.grid = element_blank(), panel.background = element_blank(), 
         plot.title = element_text(size=10, face = "bold"), legend.position = "none") +
-  labs(x="Longitude", y="Latitude", title = "ARGs in raw sewage", caption = "source: Pärnänen et al.") + 
+  labs(x="Longitude", y="Latitude", title = "Antibiotic resistance\ngenes in raw sewage", caption = "source: Pärnänen et al.") + 
   scale_fill_gradient(name="Influent\nAR prevalence", high="red", low="#FFFF99", na.value = "grey80")
 
-grid.arrange(p1, p2, p3, ncol=3)
+grid.arrange(p1, p2, p3, ncol=3, bottom = textGrob("Yellow color: low value. Red color: high value", gp = gpar(fontface = 2, fontsize = 10), hjust = 0, x = 0))
 ```
 
 **Figure 1.** Antibiotic consumption in European countries as DDD per 1 000 inhabitants (**left**). Proportion of clinical antibiotic resistant (AR) _E. coli_ isolates to third-generation cephalosporin, fluoroquinolones and aminoglycoside (**center**). Antibiotic resistance genes (ARGs) detected in raw sewage from countries included in this study (**right**). Data on antibiotic onsumption and resistant _E. coli_ is for year 2015 and from ECDC. Antibiotic resistance gene data from this study. All data is scaled. Yellow color designates low values and red color designates high values.
@@ -89,6 +90,6 @@ grid.arrange(p1, p2, p3, ncol=3)
 Alternative figures with only two panels.
 
 ```{r alt_fig, fig.width=10, fig.height=6}
-grid.arrange(p1, p3, ncol=2)
-grid.arrange(p2, p3, ncol=2)
+grid.arrange(p1, p3, ncol=2, bottom = textGrob("Yellow color: low value. Red color: high value", gp = gpar(fontface = 2, fontsize = 10), hjust = 0, x = 0))
+grid.arrange(p2, p3, ncol=2, bottom = textGrob("Yellow color: low value. Red color: high value", gp = gpar(fontface = 2, fontsize = 10), hjust = 0, x = 0))
 ```
